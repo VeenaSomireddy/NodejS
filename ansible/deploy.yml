@@ -1,0 +1,29 @@
+---
+- name: Deploy NodeJS Application
+  hosts: local
+
+  tasks:
+
+    - name: Create application directory
+      file:
+        path: /tmp/nodejs-app
+        state: directory
+        mode: '0755'
+
+    - name: Copy package.json
+      copy:
+        src: ../package.json
+        dest: /tmp/nodejs-app/package.json
+
+    - name: Copy run.js
+      copy:
+        src: ../run.js
+        dest: /tmp/nodejs-app/run.js
+
+    - name: Verify application files
+      command: ls -l /tmp/nodejs-app
+      register: app_files
+
+    - name: Show files
+      debug:
+        var: app_files.stdout_lines
